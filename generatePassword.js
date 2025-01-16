@@ -6,7 +6,7 @@ let length = 8; // Default length
 if (args.includes('--help')) {
   console.log(`
 Usage:
-  node index.js [--length <number>] [--uppercase] [--numbers] [--symbols]
+  node generatePassword.js [--length <number>] [--uppercase] [--numbers] [--symbols]
 
 Options:
   --length <number>    Specify the length of the password (default: 8)
@@ -16,6 +16,8 @@ Options:
   `);
   process.exit(0); // Exit the program after showing help
 }
+
+console.log('generatePassword CLI for node || use [--help] for help\n');
 
 if (args.includes('--length')) {
   const lengthIndex = args.indexOf('--length') + 1;
