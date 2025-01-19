@@ -1,91 +1,85 @@
-// generatePassword.js
+// ✨ Password Generator CLI by David Husk ✨
+// Hey there! This is a fun and simple way to make strong passwords. 🚀
+// Let's make sure your accounts are super safe. 💪
 
-// Step 1: Access command-line arguments
-const args = process.argv.slice(2);
+// Step 1: Grab those command-line arguments 📜
+const args = process.argv.slice(2); // Skipping the boring `node` and filename parts
+console.log('🔐 Welcome to Password Generator CLI! 🔐\nUse [--help] if you’re stuck.\n');
 
-// Utility to display help message
-const showHelp = () => {
+// Step 2: Show help if someone asks for it 🤓
+if (args.includes('--help')) {
   console.log(`
-Usage:
+🌟 Usage:
   node generatePassword.js [--length <number>] [--uppercase] [--numbers] [--symbols]
 
-Options:
-  --length <number>    Specify the length of the password (default: 8)
-  --uppercase          Include uppercase letters in the password
-  --numbers            Include numbers in the password
-  --symbols            Include symbols in the password
-  --help               Display this help message
-`);
-  process.exit(0);
-};
-
-// Show help if requested
-if (args.includes('--help')) {
-  showHelp();
+⚙️ Options:
+  --length <number>    📏 Set the length of your password (default: 8)
+  --uppercase          🔠 Include uppercase letters
+  --numbers            🔢 Include numbers
+  --symbols            🛡️  Include special symbols
+  --help               ❓ Show this help menu
+  `);
+  process.exit(0); // Bye-bye 👋
 }
 
-// Step 2: Parse options
-const parseArgs = () => {
-  let length = 8; // Default password length
-  const options = {
-    uppercase: false,
-    numbers: false,
-    symbols: false,
-  };
-
-  args.forEach((arg, index) => {
-    if (arg === '--length') {
-      const lengthValue = parseInt(args[index + 1], 10);
-      if (isNaN(lengthValue) || lengthValue <= 0) {
-        console.error('Error: Invalid value for --length. Please provide a positive number.');
-        process.exit(1);
-      }
-      length = lengthValue;
-    } else if (arg === '--uppercase') {
-      options.uppercase = true;
-    } else if (arg === '--numbers') {
-      options.numbers = true;
-    } else if (arg === '--symbols') {
-      options.symbols = true;
-    }
-  });
-
-  return { length, options };
+// Step 3: Default settings (because defaults are nice 😎)
+let length = 8; // Default password length (short but sweet)
+const options = {
+  uppercase: false,
+  numbers: false,
+  symbols: false,
 };
 
-// Step 3: Generate password
-const generatePassword = (length, options) => {
-  const lowercase = 'abcdefghijklmnopqrstuvwxyz';
-  const uppercase = options.uppercase ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' : '';
-  const numbers = options.numbers ? '0123456789' : '';
-  const symbols = options.symbols ? '!@#$%^&*()_+[]{}|;:,.<>?' : '';
-  const characters = lowercase + uppercase + numbers + symbols;
+// Step 4: Parse the user’s options 🎛️
+if (args.includes('--length')) {
+  const lengthIndex = args.indexOf('--length') + 1;
+  const lengthValue = parseInt(args[lengthIndex], 10);
 
+  // Make sure the length is valid! 🧐
+  if (isNaN(lengthValue) || lengthValue <= 0) {
+    console.error('❌ Oops! Length must be a positive number.');
+    process.exit(1);
+  }
+
+  length = lengthValue; // Update length with the user’s input
+}
+
+options.uppercase = args.includes('--uppercase'); // Add uppercase? 🔠
+options.numbers = args.includes('--numbers'); // Add numbers? 🔢
+options.symbols = args.includes('--symbols'); // Add symbols? 🛡️
+
+// Step 5: Time to generate that password! ✨
+const generatePassword = (length, options) => {
+  const lowercase = 'abcdefghijklmnopqrstuvwxyz'; // Everyone loves lowercase 🐤
+  const uppercase = options.uppercase ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' : ''; // Fancy uppercase letters 💅
+  const numbers = options.numbers ? '0123456789' : ''; // Good old numbers 🔢
+  const symbols = options.symbols ? '!@#$%^&*()_+[]{}|;:,.<>?' : ''; // Symbols for the win! 🔐
+
+  // Uh-oh! No characters selected? 🤔
+  const characters = lowercase + uppercase + numbers + symbols;
   if (!characters) {
-    throw new Error('No character sets selected. Use flags to include character types.');
+    throw new Error('⚠️ No character types selected! Use some flags, friend.');
   }
 
   let password = '';
   for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    password += characters[randomIndex];
+    const randomIndex = Math.floor(Math.random() * characters.length); // Pick a random character 🎲
+    password += characters[randomIndex]; // Add it to the password 🏗️
   }
-  return password;
+
+  return password; // Here’s your shiny new password! ✨
 };
 
-// Main script logic
+// Step 6: Generate the password and show it! 🎉
 try {
-  const { length, options } = parseArgs();
-
-  // Inform users of default behavior if no special flags are provided
   if (!options.uppercase && !options.numbers && !options.symbols) {
-    console.log('No special flags selected. Generating a password with lowercase letters only.');
+    console.log('⚠️ No special options selected. Generating a lowercase-only password.');
   }
 
-  console.log(`Password length: ${length}`);
+  console.log(`📏 Password length: ${length}`);
   const password = generatePassword(length, options);
-  console.log(`Generated Password: ${password}`);
+  console.log(`🔐 Your password: ${password}`);
 } catch (error) {
-  console.error(`Error: ${error.message}`);
+  console.error(`❌ Error: ${error.message}`);
   process.exit(1);
 }
