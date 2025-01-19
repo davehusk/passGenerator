@@ -32,7 +32,7 @@ Welcome to  **Password Generator CLI** , a simple yet powerful Node.js tool for 
 1. **Run the Script** :
 
 ```bash
-   node generatePassword.js
+   node index.js
 ```
 
 ---
