@@ -19,7 +19,7 @@ Welcome to  **Password Generator CLI** , a simple yet powerful Node.js tool for 
 1. **Clone the Repository** :
 
 ```bash
-   git clone https://github.com/your-repo/password-generator-cli.git
+   git clone https://github.com/davehusk/passGenerator.git
    cd password-generator-cli
 ```
 
